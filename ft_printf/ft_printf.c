@@ -115,37 +115,40 @@ int		size_hexa(int nb)
 	return (size);
 }
 
-void	ft_putnbr(int nb)
+void	ft_putnbr(long int nb)
 {
-	long int	nbr;
 
-	nbr = (long int)nb;
-	if (nbr < 0)
-	{
-		ft_putchar('-');
-		nbr *= -1;
-	}
-	if (nbr >= 10)
-		ft_putnbr(nbr / 10);
-	ft_putchar((nbr % 10) + 48);
+	if (nb >= 10)
+		ft_putnbr(nb / 10);
+	ft_putchar((nb % 10) + 48);
 }
 
 void	print_int(va_list arg)
 {
-	int		i;
-	int		nb;
-	int		size_nb;
+	int			i;
+	long int	nb;
+	int			size_nb;
+	int			neg;
 
-	nb = va_arg(arg, int);
+	nb = (long int) va_arg(arg, int);
+	if (nb < 0)
+	{
+		neg = 1;
+		nb *= -1;
+	}
+	else
+		neg = 0;
 	size_nb = ft_size_nb(nb);
 	i = 0;
 	if (p != -1 && p > size_nb)
 	{
-		while (i < w - (size_nb + (p - size_nb)))
+		while (i < w - (size_nb + (p - size_nb) + neg))
 		{
 			ft_putchar(' ');
 			i++;
 		}
+		if (neg)
+			ft_putchar('-');
 		i = 0;
 		while (i < p - size_nb)
 		{
@@ -156,7 +159,9 @@ void	print_int(va_list arg)
 	}
 	else
 	{
-		while (i < w - size_nb)
+		if (neg)
+			ft_putchar('-');
+		while (i < w - (size_nb + neg))
 		{
 			ft_putchar(' ');
 			i++;
@@ -245,8 +250,7 @@ int		ft_printf(const char *f, ...)
 
 int		main(void)
 {
-	ft_printf("return: %d \n", ft_printf("%d | %s", 10, "ahgahhhhhh"));
-//	ft_putnbr_hexa(123456789, "0123456789abcdef");
+	ft_printf("return: %d \n", ft_printf("%10.5d", -456));
 	return (0);
 }
 
