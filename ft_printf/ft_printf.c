@@ -56,8 +56,20 @@ void	print_string(va_list arg)
 	int		i;
 	int		j;
 	char	*str;
+	char	null[7];
 
 	str = va_arg(arg, char *);
+	if (!str)
+	{
+		null[0] = '(';
+		null[1] = 'n';
+		null[2] = 'u';
+		null[3] = 'l';
+		null[4] = 'l';
+		null[5] = ')';
+		null[6] = '\0';
+		str = null;
+	}
 	i = 0;
 	if (p != -1)
 	{
@@ -89,7 +101,7 @@ void	print_string(va_list arg)
 	}
 }
 
-int		ft_size_nb(int	nb)
+int		ft_size_nb(long	int nb)
 {
 	int		size;
 
@@ -102,7 +114,7 @@ int		ft_size_nb(int	nb)
 	return (size);
 }
 
-int		size_hexa(int nb)
+int		size_hexa(unsigned int nb)
 {
 	int		size;
 
@@ -159,18 +171,18 @@ void	print_int(va_list arg)
 	}
 	else
 	{
-		if (neg)
-			ft_putchar('-');
 		while (i < w - (size_nb + neg))
 		{
 			ft_putchar(' ');
 			i++;
 		}
+		if (neg)
+			ft_putchar('-');
 		ft_putnbr(nb);
 	}
 }
 
-void	ft_putnbr_hexa(long long int nb, char *hexa)
+void	ft_putnbr_hexa(unsigned int nb, char *hexa)
 {
 	if (nb >= 16)
 		ft_putnbr_hexa(nb / 16, "0123456789abcdef");
@@ -180,11 +192,11 @@ void	ft_putnbr_hexa(long long int nb, char *hexa)
 void	print_hexa(va_list arg)
 {
 	
-	int		i;
-	int		nb;
-	int		size_nb;
+	int					i;
+	unsigned int		nb;
+	int					size_nb;
 
-	nb = va_arg(arg, long long int);
+	nb = va_arg(arg, unsigned int);
 	size_nb = size_hexa(nb);
 	i = 0;
 	if (p != -1 && p > size_nb)
@@ -247,10 +259,12 @@ int		ft_printf(const char *f, ...)
 	va_end(arg);
 	return (c_print);
 }
-
+/*
 int		main(void)
 {
-	ft_printf("return: %d \n", ft_printf("%10.5d", -456));
+	printf("return: %d \n", ft_printf("%x", -10));
+	printf("return: %d \n", printf("%x", -10));
 	return (0);
 }
+*/
 
